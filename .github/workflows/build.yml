@@ -18,8 +18,11 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 12
-
       - name: npm install and npm run build
         run: |
           npm ci
           npm run build
+      - name: list work dir
+        run: ls 
+      - name: list directory dist
+        run: ls dist
