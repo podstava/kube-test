@@ -22,7 +22,6 @@ jobs:
           npm run build
       - name: ls dist
         run: ls dist
-      - uses: actions/checkout@v2
       - name: Create Sentry release
         uses: getsentry/action-release@v1
         env:
