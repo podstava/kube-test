@@ -1,0 +1,39 @@
+
+name: Publish release
+on: 
+  push:
+    release:
+      types: [published]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Node $
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: npm install and npm run build
+        run: |
+          npm ci
+          npm run build
+  create_relese_and_push_source_maps:
+    runs-on: ubuntu-latest
+    - uses: actions/checkout@v2
+    - name: Create Sentry release
+      uses: getsentry/action-release@v1
+      env:
+        SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+        SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+        SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT_ID }}
+      with:
+        environment: production
+        sourcemaps: dist
+    - name: rm maps
+      run: rm dist/*.map
+    - name: ls dist
+      run: ls dist
+        
