@@ -20,6 +20,8 @@ jobs:
         run: |
           npm ci
           npm run build
+      - name: ls dist
+        run: ls dist
       - uses: actions/checkout@v2
       - name: Create Sentry release
         uses: getsentry/action-release@v1
@@ -28,9 +30,10 @@ jobs:
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT_ID }}
         with:
+          version: ${{ github.ref }}
           environment: production
-          sourcemaps: dist
+          sourcemaps: ./dist
       - name: rm maps
-        run: rm dist/*.map
+        run: rm ./dist/*.map
       - name: ls dist
         run: ls dist
