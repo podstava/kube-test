@@ -21,7 +21,7 @@ jobs:
           npm ci
           npm run build
       - name: ls dist
-        run: ls dist
+        run: ls -la
       - name: Create Sentry release
         uses: getsentry/action-release@v1
         env:
