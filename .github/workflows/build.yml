@@ -23,6 +23,12 @@ jobs:
         run: ls 
       - name: list directory dist
         run: ls dist
+      - name: Restore static
+        uses: actions/upload-artifact@v2
+        with:
+          path: ./dist
+      - name: Display structure of downloaded files
+        run: ls -R
   upload_static:
       runs-on: ubuntu-latest
       needs: build
