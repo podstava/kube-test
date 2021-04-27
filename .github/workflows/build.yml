@@ -3,17 +3,14 @@ on:
   push:
     branches:
       - master
-
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [12.x]
-
     steps:
       - uses: actions/checkout@v1
-
       - name: Node $
         uses: actions/setup-node@v1
         with:
@@ -26,3 +23,16 @@ jobs:
         run: ls 
       - name: list directory dist
         run: ls dist
+  upload_static:
+      runs-on: ubuntu-latest
+      needs: build
+      container:
+        image: amazon/aws-cli:2.1.15
+        options: --entrypoint "/bin/bash -l -c "
+      steps:
+        - name: Restore static
+          uses: actions/download-artifact@v2
+          with:
+            path: ./dist
+        - name: Display structure of downloaded files
+          run: ls -R
