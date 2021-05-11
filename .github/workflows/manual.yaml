@@ -1,0 +1,19 @@
+name: Build
+on: 
+  workflow_dispatch:
+    inputs:
+      test_suite:
+        description: 'Test suite'
+        required: true
+        default: 'none'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    steps:
+      - uses: actions/checkout@v1
+      - name: list work dir
+        run: echo "Hello ${{ github.event.inputs.test_suite }}!" 
+        
